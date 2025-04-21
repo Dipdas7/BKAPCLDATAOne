@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharuch Kishan Agrofeed Producer Company - Financial Year 2022-23</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-center text-green-800">Bharuch Kishan Agrofeed Producer Company Limited</h1>
+            <h2 class="text-2xl text-center text-green-700">Financial Year 2022-23 Progress Report</h2>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Summary Cards -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-700 mb-4">Total Sales</h3>
+                <p class="text-3xl font-bold text-green-600">₹1,576,077</p>
+                <p class="text-sm text-gray-500 mt-2">September to March</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-700 mb-4">Total Profit</h3>
+                <p class="text-3xl font-bold text-green-600">₹105,072</p>
+                <p class="text-sm text-gray-500 mt-2">September to March</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-700 mb-4">Total Turnover</h3>
+                <p class="text-3xl font-bold text-green-600">₹1,576,077</p>
+                <p class="text-sm text-gray-500 mt-2">September to March</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Monthly Sales Chart -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-700 mb-4">Monthly Sales</h3>
+                <canvas id="salesChart" class="w-full h-64"></canvas>
+            </div>
+            
+            <!-- Product Distribution Chart -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-700 mb-4">Product Distribution</h3>
+                <canvas id="productChart" class="w-full h-64"></canvas>
+            </div>
+        </div>
+
+        <!-- Detailed Transaction Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="p-4 border-b">
+                <h3 class="text-lg font-semibold text-green-700">Transaction Details</h3>
+                <div class="flex justify-between items-center mt-2">
+                    <div class="flex space-x-2">
+                        <input type="text" id="searchInput" placeholder="Search..." class="px-3 py-1 border rounded-md text-sm">
+                        <select id="monthFilter" class="px-3 py-1 border rounded-md text-sm">
+                            <option value="">All Months</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sr.No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FPO Rate</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Rate</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FPO Profit</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Turnover</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTable" class="bg-white divide-y divide-gray-200">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Monthly Summary Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="p-4 border-b">
+                <h3 class="text-lg font-semibold text-green-700">Monthly Summary</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">April</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">May</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">June</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">July</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">August</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">September</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">October</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">November</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">December</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">January</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">February</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">March</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryTable" class="bg-white divide-y divide-gray-200">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Transaction Data
+        const transactionData = [
+            { id: 1, month: 'April', description: '-', quantity: 0, unit: '-', fpoRate: 0, totalAmount: 0, purchaseRate: 0, purchaseAmount: 0, profit: 0, turnover: 0, agency: '-' },
+            { id: 2, month: 'May', description: '-', quantity: 0, unit: '-', fpoRate: 0, totalAmount: 0, purchaseRate: 0, purchaseAmount: 0, profit: 0, turnover: 0, agency: '-' },
+            { id: 3, month: 'June', description: '-', quantity: 0, unit: '-', fpoRate: 0, totalAmount: 0, purchaseRate: 0, purchaseAmount: 0, profit: 0, turnover: 0, agency: '-' },
+            { id: 4, month: 'July', description: '-', quantity: 0, unit: '-', fpoRate: 0, totalAmount: 0, purchaseRate: 0, purchaseAmount: 0, profit: 0, turnover: 0, agency: '-' },
+            { id: 5, month: 'August', description: '-', quantity: 0, unit: '-', fpoRate: 0, totalAmount: 0, purchaseRate: 0, purchaseAmount: 0, profit: 0, turnover: 0, agency: '-' },
+            { id: 6, month: 'September', description: 'Eucalyptus Plants', quantity: 12000, unit: 'Nos', fpoRate: 4.75, totalAmount: 57000, purchaseRate: 4.5, purchaseAmount: 54000, profit: 3000, turnover: 57000, agency: 'Shreeji Corporation' },
+            { id: 7, month: 'October', description: 'Eucalyptus Plants', quantity: 57000, unit: 'Nos', fpoRate: 4.75, totalAmount: 270750, purchaseRate: 4.5, purchaseAmount: 256500, profit: 14250, turnover: 270750, agency: 'Shreeji Corporation' },
+            { id: 8, month: 'November', description: 'Eucalyptus Plants', quantity: 74640, unit: 'Nos', fpoRate: 4.75, totalAmount: 354540, purchaseRate: 4.5, purchaseAmount: 335880, profit: 18660, turnover: 354540, agency: 'Shreeji Corporation' },
+            { id: 9, month: 'December', description: 'Eucalyptus Plants', quantity: 79630, unit: 'Nos', fpoRate: 4.75, totalAmount: 378243, purchaseRate: 4.5, purchaseAmount: 358335, profit: 19908, turnover: 378243, agency: 'Shreeji Corporation' },
+            { id: 10, month: 'January', description: 'Eucalyptus Plants', quantity: 47620, unit: 'Nos', fpoRate: 4.75, totalAmount: 226195, purchaseRate: 4.5, purchaseAmount: 214290, profit: 11905, turnover: 226195, agency: 'Shreeji Corporation' },
+            { id: 11, month: '', description: 'Biocol', quantity: 33.69, unit: 'Ton', fpoRate: 8400, totalAmount: 282954, purchaseRate: 8295, purchaseAmount: 279459, profit: 3495, turnover: 282954, agency: 'Mama Agro Products' },
+            { id: 12, month: '', description: 'Eucalyptus Harvest', quantity: 100, unit: 'Ton', fpoRate: 5706.5, totalAmount: 570650, purchaseRate: 5650, purchaseAmount: 565000, profit: 5650, turnover: 570650, agency: 'Vasantbhai' },
+            { id: 13, month: 'February', description: 'Eucalyptus Harvest', quantity: 79.86, unit: 'Ton', fpoRate: 5706.5, totalAmount: 455721, purchaseRate: 5650, purchaseAmount: 451209, profit: 4512, turnover: 455721, agency: 'Vasantbhai' },
+            { id: 14, month: 'March', description: 'Eucalyptus Plants', quantity: 56000, unit: 'Nos', fpoRate: 4.75, totalAmount: 266000, purchaseRate: 4.5, purchaseAmount: 252000, profit: 14000, turnover: 266000, agency: 'Shreeji Corporation' },
+            { id: 15, month: '', description: 'Eucalyptus Harvest', quantity: 651.64, unit: 'Ton', fpoRate: 5605.5, totalAmount: 3652768, purchaseRate: 5550, purchaseAmount: 3616602, profit: 36166, turnover: 36166, agency: 'Ashokbhai' },
+            { id: 16, month: '', description: 'Eucalyptus Waste', quantity: 38.51, unit: 'Ton', fpoRate: 600, totalAmount: 23106, purchaseRate: 500, purchaseAmount: 19255, profit: 3851, turnover: 23106, agency: 'Ashokbhai' }
+        ];
+
+        // Summary Data
+        const summaryData = {
+            'Eucalyptus Plants': {
+                quantity: [0, 0, 0, 0, 0, 12000, 57000, 74640, 79630, 47620, 0, 56000],
+                amount: [0, 0, 0, 0, 0, 57000, 270750, 354540, 378243, 226195, 0, 266000],
+                turnover: [0, 0, 0, 0, 0, 57000, 270750, 354540, 378243, 226195, 0, 266000]
+            },
+            'Biocol': {
+                quantity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 33.69, 0, 0],
+                amount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 282954, 0, 0],
+                turnover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 282954, 0, 0]
+            },
+            'Eucalyptus Harvest': {
+                quantity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 79.86, 651.64],
+                amount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 570650, 455721, 3652768],
+                turnover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 570650, 455721, 36166]
+            },
+            'Agro Waste': {
+                quantity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38.51],
+                amount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23106],
+                turnover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23106]
+            },
+            'Oil Cans': {
+                quantity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                amount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                turnover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }
+        };
+
+        // Populate Transaction Table
+        function populateTransactionTable(data) {
+            const tableBody = document.getElementById('transactionTable');
+            tableBody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.id || ''}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.month || ''}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.description}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.quantity}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.unit}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.fpoRate}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹${item.totalAmount.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.purchaseRate}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹${item.purchaseAmount.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹${item.profit.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹${item.turnover.toLocaleString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.agency}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Populate Summary Table
+        function populateSummaryTable() {
+            const tableBody = document.getElementById('summaryTable');
+            tableBody.innerHTML = '';
+            
+            const months = ['April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March'];
+            
+            // Add rows for each product
+            Object.keys(summaryData).forEach(product => {
+                // Quantity row
+                const qtyRow = document.createElement('tr');
+                qtyRow.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product} - Quantity</td>
+                    ${summaryData[product].quantity.map((qty, i) => `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${qty}</td>
+                    `).join('')}
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${summaryData[product].quantity.reduce((a, b) => a + b, 0)}</td>
+                `;
+                tableBody.appendChild(qtyRow);
+                
+                // Amount row
+                const amtRow = document.createElement('tr');
+                amtRow.className = 'bg-gray-50';
+                amtRow.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product} - Amount</td>
+                    ${summaryData[product].amount.map((amt, i) => `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${amt ? '₹' + amt.toLocaleString() : '-'}</td>
+                    `).join('')}
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">₹${summaryData[product].amount.reduce((a, b) => a + b, 0).toLocaleString()}</td>
+                `;
+                tableBody.appendChild(amtRow);
+                
+                // Turnover row
+                const turnoverRow = document.createElement('tr');
+                turnoverRow.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product} - Turnover</td>
+                    ${summaryData[product].turnover.map((turnover, i) => `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${turnover ? '₹' + turnover.toLocaleString() : '-'}</td>
+                    `).join('')}
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">₹${summaryData[product].turnover.reduce((a, b) => a + b, 0).toLocaleString()}</td>
+                `;
+                tableBody.appendChild(turnoverRow);
+            });
+            
+            // Add total row
+            const totalRow = document.createElement('tr');
+            totalRow.className = 'bg-green-50';
+            totalRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-900">Total Amount</td>
+                ${months.map((month, i) => {
+                    let total = 0;
+                    Object.keys(summaryData).forEach(product => {
+                        total += summaryData[product].amount[i];
+                    });
+                    return `<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-900">${total ? '₹' + total.toLocaleString() : '-'}</td>`;
+                }).join('')}
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-green-900">
+                    ₹${Object.keys(summaryData).reduce((total, product) => 
+                        total + summaryData[product].amount.reduce((a, b) => a + b, 0), 0).toLocaleString()}
+                </td>
+            `;
+            tableBody.appendChild(totalRow);
+        }
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Monthly Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            const months = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+            const salesData = [57000, 270750, 354540, 378243, 226195, 455721, 266000];
+            
+            new Chart(salesCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Monthly Sales (₹)',
+                        data: salesData,
+                        backgroundColor: 'rgba(5, 150, 105, 0.7)',
+                        borderColor: 'rgba(5, 150, 105, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Sales: ₹' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Product Distribution Chart
+            const productCtx = document.getElementById('productChart').getContext('2d');
+            const productLabels = ['Eucalyptus Plants', 'Biocol', 'Eucalyptus Harvest', 'Agro Waste'];
+            const productData = [
+                summaryData['Eucalyptus Plants'].amount.reduce((a, b) => a + b, 0),
+                summaryData['Biocol'].amount.reduce((a, b) => a + b, 0),
+                summaryData['Eucalyptus Harvest'].amount.reduce((a, b) => a + b, 0),
+                summaryData['Agro Waste'].amount.reduce((a, b) => a + b, 0)
+            ];
+            
+            new Chart(productCtx, {
+                type: 'pie',
+                data: {
+                    labels: productLabels,
+                    datasets: [{
+                        data: productData,
+                        backgroundColor: [
+                            'rgba(5, 150, 105, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(22, 163, 74, 0.7)',
+                            'rgba(34, 197, 94, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(5, 150, 105, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(22, 163, 74, 1)',
+                            'rgba(34, 197, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ₹${value.toLocaleString()} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Filter Transactions
+        function filterTransactions() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const monthFilter = document.getElementById('monthFilter').value;
+            
+            let filteredData = transactionData.filter(item => {
+                const matchesSearch = item.description.toLowerCase().includes(searchTerm) || 
+                                    item.agency.toLowerCase().includes(searchTerm);
+                const matchesMonth = !monthFilter || item.month === monthFilter;
+                
+                return matchesSearch && matchesMonth;
+            });
+            
+            populateTransactionTable(filteredData);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTransactionTable(transactionData);
+            populateSummaryTable();
+            initializeCharts();
+            
+            // Add event listeners for filters
+            document.getElementById('searchInput').addEventListener('input', filterTransactions);
+            document.getElementById('monthFilter').addEventListener('change', filterTransactions);
+        });
+    </script>
+</body>
+</html>
